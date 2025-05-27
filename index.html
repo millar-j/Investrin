@@ -9,9 +9,91 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="min-h-screen flex flex-col">
+<!-- Add this inside the <body>, below your main content -->
+
+<section class="stock-search">
+  <h2>Search Stocks</h2>
+  <input type="text" id="stockInput" placeholder="Enter ticker symbol e.g. AAPL" />
+  <button id="searchBtn">Search</button>
+
+  <div id="stockInfo" class="stock-info" style="display:none;">
+    <h3 id="companyName"></h3>
+    <p>Price: $<span id="stockPrice"></span></p>
+    <canvas id="stockChart" width="400" height="200"></canvas>
+  </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const dummyStockData = {
+    AAPL: {
+      name: "Apple Inc.",
+      price: 170.50,
+      history: [165, 167, 169, 170, 171, 172, 170.5]
+    },
+    TSLA: {
+      name: "Tesla Inc.",
+      price: 290.12,
+      history: [280, 285, 288, 292, 295, 291, 290.12]
+    },
+    MSFT: {
+      name: "Microsoft Corp.",
+      price: 320.45,
+      history: [310, 315, 318, 322, 325, 321, 320.45]
+    }
+  };
+
+  const stockInput = document.getElementById("stockInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const stockInfo = document.getElementById("stockInfo");
+  const companyName = document.getElementById("companyName");
+  const stockPrice = document.getElementById("stockPrice");
+  const ctx = document.getElementById("stockChart").getContext("2d");
+  let chart;
+
+  searchBtn.addEventListener("click", () => {
+    const ticker = stockInput.value.trim().toUpperCase();
+    if (!ticker || !dummyStockData[ticker]) {
+      alert("Stock not found! Try AAPL, TSLA, or MSFT.");
+      return;
+    }
+
+    const data = dummyStockData[ticker];
+    companyName.textContent = data.name + ` (${ticker})`;
+    stockPrice.textContent = data.price.toFixed(2);
+    stockInfo.style.display = "block";
+
+    if (chart) chart.destroy(); // destroy previous chart if exists
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "Yesterday", "Today"],
+        datasets: [{
+          label: "Price ($)",
+          data: data.history,
+          borderColor: "#8e54e9",
+          backgroundColor: "rgba(142, 84, 233, 0.3)",
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  });
+</script>
 
   <!-- Navigation -->
   <header class="p-4 flex justify-between items-center bg-opacity-20 backdrop-blur-md bg-white/10">
