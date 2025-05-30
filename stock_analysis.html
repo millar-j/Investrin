@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Analysis - Investrin</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Stock Analysis</h2>
+
+    <!-- Stock Search Form -->
+    <form id="stockForm" class="stock-search">
+      <input type="text" id="ticker" placeholder="Enter stock symbol (e.g. AAPL)" required />
+      <button type="submit">Analyze</button>
+    </form>
+
+    <!-- Radar Chart Canvas -->
+    <canvas id="radarChart" width="400" height="400"></canvas>
+
+    <!-- Explanation of fundamentals -->
+    <div class="fundamentals-info">
+      <p><strong>EPS</strong> (Earnings Per Share) indicates a company's profitability by showing how much profit is allocated to each outstanding share of stock.</p>
+      <p><strong>P/E Ratio</strong> (Price-to-Earnings Ratio) compares a company’s current share price to its per-share earnings, helping evaluate if a stock is over or undervalued.</p>
+      <p><strong>Dividend Yield</strong> shows the annual dividend income as a percentage of the stock price, reflecting the return on investment from dividends.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript File -->
+  <script src="stock_analysis.js"></script>
+</body>
+</html>
