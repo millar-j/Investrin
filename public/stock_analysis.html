@@ -2,33 +2,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stock Analysis - Investrin</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #e0e7ff;
+    }
+    .animated-btn {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .animated-btn:hover {
+      opacity: 0.9;
+    }
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+      cursor: help;
+      color: #0ff;
+      font-weight: bold;
+      margin-left: 4px;
+      display: inline-block;
+      outline: none;
+    }
+    .tooltiptext {
+      visibility: hidden;
+      width: 220px;
+      background-color: #222;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 6px 8px;
+      position: absolute;
+      z-index: 10;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+      pointer-events: none;
+      line-height: 1.3;
+    }
+    .tooltip:focus .tooltiptext,
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Ensure canvas fills container and is centered */
+    canvas {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+      height: auto !important;
+    }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <h2>Stock Analysis</h2>
+<body class="min-h-screen flex flex-col">
 
-    <!-- Stock Search Form -->
-    <form id="stockForm" class="stock-search">
-      <input type="text" id="ticker" placeholder="Enter stock symbol (e.g. AAPL)" required />
-      <button type="submit">Analyze</button>
+  <!-- Navigation -->
+  <header class="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md">
+    <h1 class="text-2xl font-extrabold text-cyan-400">Investrin</h1>
+    <nav class="space-x-6">
+      <a href="index.html" class="hover:text-cyan-300 transition">Home</a>
+      <a href="features.html" class="hover:text-cyan-300 transition">Features</a>
+      <a href="about.html" class="hover:text-cyan-300 transition">About</a>
+      <a href="stock_analysis.html" class="hover:text-cyan-300 transition font-semibold underline">Stock Analysis</a>
+      <a href="login.html" class="hover:text-cyan-300 transition">Login</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl mx-auto px-6 py-12">
+    <h2 class="text-4xl font-extrabold mb-8 text-center">Stock Analysis</h2>
+
+    <form id="stockForm" class="flex gap-3 max-w-md mx-auto mb-10">
+      <input
+        type="text"
+        id="ticker"
+        placeholder="Enter stock symbol (e.g. AAPL)"
+        required
+        class="flex-grow rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      />
+      <button
+        type="submit"
+        class="bg-cyan-500 text-white px-6 rounded-md font-semibold hover:bg-cyan-600 transition animated-btn"
+      >
+        Analyze
+      </button>
     </form>
 
-    <!-- Radar Chart Canvas -->
-    <canvas id="radarChart" width="400" height="400"></canvas>
+    <!-- Radar Chart for Fundamentals -->
+    <canvas id="radarChart" width="400" height="400" class="mx-auto mb-8"></canvas>
 
-    <!-- Explanation of fundamentals -->
-    <div class="fundamentals-info">
-      <p><strong>EPS</strong> (Earnings Per Share) indicates a company's profitability by showing how much profit is allocated to each outstanding share of stock.</p>
-      <p><strong>P/E Ratio</strong> (Price-to-Earnings Ratio) compares a company’s current share price to its per-share earnings, helping evaluate if a stock is over or undervalued.</p>
-      <p><strong>Dividend Yield</strong> shows the annual dividend income as a percentage of the stock price, reflecting the return on investment from dividends.</p>
+  
+    <!-- Fundamentals info with tooltips -->
+    <div class="fundamentals-info max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-xl p-6 text-gray-200 space-y-4">
+      <p>
+        <strong>EPS</strong>
+        <span class="tooltip" tabindex="0">ℹ️
+          <span class="tooltiptext">Earnings Per Share: Profit allocated to each outstanding share of stock.</span>
+        </span> indicates a company's profitability by showing how much profit is allocated to each outstanding share of stock.
+      </p>
+      <p>
+        <strong>P/E Ratio</strong>
+        <span class="tooltip" tabindex="0">ℹ️
+          <span class="tooltiptext">Price-to-Earnings Ratio: Compares a company’s current share price to its per-share earnings, helping evaluate if a stock is over or undervalued.</span>
+        </span> compares a company’s current share price to its per-share earnings, helping evaluate if a stock is over or undervalued.
+      </p>
+      <p>
+        <strong>Dividend Yield</strong>
+        <span class="tooltip" tabindex="0">ℹ️
+          <span class="tooltiptext">Dividend Yield: Shows the annual dividend income as a percentage of the stock price.</span>
+        </span> shows the annual dividend income as a percentage of the stock price, reflecting the return on investment from dividends.
+      </p>
     </div>
-  </div>
 
-  <!-- JavaScript File -->
+    <!-- Key Ratios & Metrics Panel -->
+    <div id="keyRatios" class="max-w-md mx-auto bg-white/10 backdrop-blur-md rounded-xl p-6 text-gray-200 mt-8 space-y-3">
+      <h3 class="text-xl font-semibold mb-4 text-cyan-400">Key Financial Ratios & Metrics</h3>
+      <ul class="space-y-2 text-sm">
+        <li><strong>Market Cap:</strong> <span id="marketCap">-</span></li>
+        <li><strong>Debt to Equity Ratio:</strong> <span id="deRatio">-</span></li>
+        <li><strong>Return on Equity (ROE):</strong> <span id="roe">-</span></li>
+        <li><strong>Profit Margin:</strong> <span id="profitMargin">-</span></li>
+        <li><strong>Revenue:</strong> <span id="revenue">-</span></li>
+        <li><strong>EBITDA Margin:</strong> <span id="ebitdaMargin">-</span></li>
+        <li><strong>Current Ratio:</strong> <span id="currentRatio">-</span></li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-400 text-sm bg-white/10 backdrop-blur-md">
+    © 2025 Investrin. All rights reserved.
+  </footer>
+
   <script src="stock_analysis.js"></script>
 </body>
 </html>

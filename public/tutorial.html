@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investing Tutorial - Investrin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #e0e7ff;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      transition: transform 0.2s;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <header class="p-4 flex justify-between items-center bg-white/10 backdrop-blur-md">
+    <h1 class="text-2xl font-extrabold text-cyan-400">Investrin</h1>
+    <nav class="space-x-6">
+      <a href="index.html" class="hover:text-cyan-300 transition">Home</a>
+      <a href="stock_analysis.html" class="hover:text-cyan-300 transition">Stock Analysis</a>
+      <a href="tutorial.html" class="hover:text-cyan-300 transition font-semibold underline">Tutorial</a>
+      <a href="login.html" class="hover:text-cyan-300 transition">Login</a>
+      <a href="contact.html" class="hover:text-cyan-300 transition">Contact</a>
+      <a href="about.html" class="hover:text-cyan-300 transition">About</a>
+      <a href="features.html" class="hover:text-cyan-300 transition">Features</a>
+    </nav>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-6 py-12 space-y-12">
+    <section>
+      <h2 class="text-3xl font-bold mb-4 text-center">Welcome to Investing 101 🎓</h2>
+      <p class="text-center text-lg text-gray-300">Learn how to invest safely, build wealth, and make smart decisions in the stock market.</p>
+    </section>
+
+    <!-- Learning Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="card bg-white/10 p-6 rounded-xl shadow-md hover:bg-white/20">
+        <h3 class="text-xl font-semibold mb-2 text-cyan-300">What is a Stock?</h3>
+        <p>A stock represents ownership in a company. When you buy a share, you own a piece of that company.</p>
+      </div>
+      <div class="card bg-white/10 p-6 rounded-xl shadow-md hover:bg-white/20">
+        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Why Do Companies Go Public?</h3>
+        <p>To raise capital. Companies sell shares to investors in exchange for money to grow their business.</p>
+      </div>
+      <div class="card bg-white/10 p-6 rounded-xl shadow-md hover:bg-white/20">
+        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Risk vs Reward</h3>
+        <p>Higher risk can mean higher reward, but it can also mean greater loss. Diversification helps reduce risk.</p>
+      </div>
+      <div class="card bg-white/10 p-6 rounded-xl shadow-md hover:bg-white/20">
+        <h3 class="text-xl font-semibold mb-2 text-cyan-300">Dividends</h3>
+        <p>Some companies share profits with investors in the form of dividends. These are like bonus payments.</p>
+      </div>
+    </section>
+
+    <!-- Scenario-Based Quiz -->
+    <section class="bg-white/10 p-6 rounded-xl text-sm md:text-base">
+      <h3 class="text-2xl font-bold mb-4 text-cyan-400">Interactive Scenario 💡</h3>
+      <p class="mb-4">Imagine you have £1,000 to invest. You can either:</p>
+      <ul class="list-disc ml-5 mb-4 space-y-1">
+        <li>Buy shares in a fast-growing tech company</li>
+        <li>Invest in a stable dividend-paying utility company</li>
+        <li>Put it all in a savings account</li>
+      </ul>
+      <p class="mb-2">What would you choose and why?</p>
+      <textarea rows="3" class="w-full rounded-md p-2 text-black mb-4" placeholder="Type your thoughts here..."></textarea>
+      <button class="bg-cyan-500 px-4 py-2 rounded-md text-white font-semibold hover:bg-cyan-600">Submit Answer</button>
+    </section>
+
+    <!-- Drag & Drop Quiz -->
+    <section class="mt-12 bg-white/10 p-6 rounded-xl">
+      <h3 class="text-2xl font-bold mb-4 text-cyan-400">Match the Investment Types 🧠</h3>
+      <p class="mb-4 text-sm text-gray-300">Drag the investment type on the left to the correct description on the right.</p>
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Draggable Items -->
+        <div class="space-y-4">
+          <div draggable="true" id="stocks" class="drag-item cursor-move bg-cyan-500 text-white px-4 py-2 rounded-md text-center font-semibold">Stocks</div>
+          <div draggable="true" id="bonds" class="drag-item cursor-move bg-cyan-500 text-white px-4 py-2 rounded-md text-center font-semibold">Bonds</div>
+          <div draggable="true" id="etfs" class="drag-item cursor-move bg-cyan-500 text-white px-4 py-2 rounded-md text-center font-semibold">ETFs</div>
+        </div>
+
+        <!-- Drop Zones -->
+        <div class="space-y-4">
+          <div data-answer="stocks" class="drop-zone bg-white/20 p-4 rounded-md min-h-[60px] flex items-center justify-center text-sm text-gray-100 border border-dashed border-cyan-300">
+            Company ownership that can go up or down in value.
+          </div>
+          <div data-answer="bonds" class="drop-zone bg-white/20 p-4 rounded-md min-h-[60px] flex items-center justify-center text-sm text-gray-100 border border-dashed border-cyan-300">
+            A loan you give to governments or companies, paid back with interest.
+          </div>
+          <div data-answer="etfs" class="drop-zone bg-white/20 p-4 rounded-md min-h-[60px] flex items-center justify-center text-sm text-gray-100 border border-dashed border-cyan-300">
+            A collection of investments that trades like a stock.
+          </div>
+        </div>
+      </div>
+      <button onclick="checkAnswers()" class="mt-6 bg-green-500 px-4 py-2 rounded-md text-white font-semibold hover:bg-green-600">Check Answers</button>
+      <p id="feedback" class="mt-4 font-semibold text-center"></p>
+    </section>
+
+    <!-- XP Progress Bar -->
+    <section class="mt-12">
+      <h3 class="text-xl font-bold text-center mb-2 text-cyan-300">Your Progress</h3>
+      <div class="bg-gray-700 h-6 w-full rounded-full overflow-hidden">
+        <div id="xpBar" class="bg-cyan-400 h-full text-xs text-white text-center" style="width: 20%;">20 XP</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center py-6 text-gray-400 text-sm bg-white/10 backdrop-blur-md">
+    © 2025 Investrin. All rights reserved.
+  </footer>
+
+  <!-- JavaScript placed at the end -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dragItems = document.querySelectorAll(".drag-item");
+      const dropZones = document.querySelectorAll(".drop-zone");
+
+      dragItems.forEach(item => {
+        item.addEventListener("dragstart", e => {
+          e.dataTransfer.setData("text/plain", e.target.id);
+        });
+      });
+
+      dropZones.forEach(zone => {
+        zone.addEventListener("dragover", e => e.preventDefault());
+        zone.addEventListener("drop", e => {
+          e.preventDefault();
+          const id = e.dataTransfer.getData("text/plain");
+          const dragged = document.getElementById(id);
+          if (zone.children.length === 0) {
+            zone.appendChild(dragged);
+          }
+        });
+      });
+
+      window.checkAnswers = function () {
+        let correct = 0;
+        dropZones.forEach(zone => {
+          const expected = zone.getAttribute("data-answer");
+          const actual = zone.firstChild?.id;
+          if (expected === actual) {
+            correct++;
+          }
+        });
+
+        const feedback = document.getElementById("feedback");
+        if (correct === dropZones.length) {
+          feedback.textContent = "🎉 Great job! You matched all correctly!";
+          feedback.className = "text-green-400";
+        } else {
+          feedback.textContent = `⚠️ You got ${correct}/${dropZones.length} correct. Try again!`;
+          feedback.className = "text-yellow-300";
+        }
+      };
+    });
+  </script>
+</body>
+</html>
