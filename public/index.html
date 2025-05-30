@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investrin - Home</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- Add this inside the <body>, below your main content -->
+
+<section class="stock-search">
+  <h2>Search Stocks</h2>
+  <input type="text" id="stockInput" placeholder="Enter ticker symbol e.g. AAPL" />
+  <button id="searchBtn">Search</button>
+
+  <div id="stockInfo" class="stock-info" style="display:none;">
+    <h3 id="companyName"></h3>
+    <p>Price: $<span id="stockPrice"></span></p>
+    <canvas id="stockChart" width="400" height="200"></canvas>
+  </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const dummyStockData = {
+    AAPL: {
+      name: "Apple Inc.",
+      price: 170.50,
+      history: [165, 167, 169, 170, 171, 172, 170.5]
+    },
+    TSLA: {
+      name: "Tesla Inc.",
+      price: 290.12,
+      history: [280, 285, 288, 292, 295, 291, 290.12]
+    },
+    MSFT: {
+      name: "Microsoft Corp.",
+      price: 320.45,
+      history: [310, 315, 318, 322, 325, 321, 320.45]
+    }
+  };
+
+  const stockInput = document.getElementById("stockInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const stockInfo = document.getElementById("stockInfo");
+  const companyName = document.getElementById("companyName");
+  const stockPrice = document.getElementById("stockPrice");
+  const ctx = document.getElementById("stockChart").getContext("2d");
+  let chart;
+
+  searchBtn.addEventListener("click", () => {
+    const ticker = stockInput.value.trim().toUpperCase();
+    if (!ticker || !dummyStockData[ticker]) {
+      alert("Stock not found! Try AAPL, TSLA, or MSFT.");
+      return;
+    }
+
+    const data = dummyStockData[ticker];
+    companyName.textContent = data.name + ` (${ticker})`;
+    stockPrice.textContent = data.price.toFixed(2);
+    stockInfo.style.display = "block";
+
+    if (chart) chart.destroy(); // destroy previous chart if exists
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["6d ago", "5d ago", "4d ago", "3d ago", "2d ago", "Yesterday", "Today"],
+        datasets: [{
+          label: "Price ($)",
+          data: data.history,
+          borderColor: "#8e54e9",
+          backgroundColor: "rgba(142, 84, 233, 0.3)",
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  });
+</script>
+
+  <!-- Navigation -->
+  <header class="p-4 flex justify-between items-center bg-opacity-20 backdrop-blur-md bg-white/10">
+    <h1 class="text-2xl font-bold">Investrin</h1>
+  <nav class="space-x-6">
+  <a href="index.html" class="hover:text-cyan-300 transition">Home</a>
+  <a href="features.html" class="hover:text-cyan-300 transition">Features</a>
+  <a href="about.html" class="hover:text-cyan-300 transition">About</a>
+  <a href="stock_analysis.html" class="hover:text-cyan-300 transition">Stock Analysis</a>
+  <a href="login.html" class="hover:text-cyan-300 transition">Login</a>
+</nav>
+
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow flex flex-col items-center justify-center text-center px-4">
+    <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Learn. Practice. Trade.</h2>
+    <p class="text-lg md:text-xl text-gray-200 max-w-2xl mb-8">
+      Investrin helps beginners understand the stock market with simulated trading, real-time data, and expert insights.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="#" class="animated-btn bg-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-md">Get Started</a>
+      <a href="#" class="animated-btn bg-white text-cyan-600 px-6 py-3 rounded-2xl font-semibold shadow-md">Learn More</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 text-gray-400 text-sm bg-opacity-10 backdrop-blur-md">
+    © 2025 Investrin. All rights reserved.
+  </footer>
+
+  <!-- Custom JS -->
+  <script src="../js/script.js"></script>
+</body>
+</html>
